@@ -1,4 +1,4 @@
-angular.module('DemoApp.directives', []).directive('pageType', function(loginservice) {
+angular.module('DemoApp.directives', []).directive('pageType', function(viewAllUsers) {
 	  return {
 		    restrict: "E",
 		    scope: {},
@@ -6,27 +6,37 @@ angular.module('DemoApp.directives', []).directive('pageType', function(loginser
 		    controller: function($scope) {
 		    	$scope.filteredTodos = []
 		    	  ,$scope.currentPage = 1
-		    	  ,$scope.numPerPage = 7
-		    	  ,$scope.maxSize = 5;
+		    	  ,$scope.numPerPage = 1
+		    	  ,$scope.maxSize = 2;
+		    	
+		    	
+		    	/*[{"id":1,"firstname":"madhu","lastname":"arjun","country":"india","email":"madhusjava4@","phone":9962110410,"gender":"m"},
+		    	 {"id":2,"firstname":"nag","lastname":"nag","country":"india","email":"nagen@","phone":654654,"gender":"m"}]*/
 		    	$scope.OnSave=function(){
-		    		alert("iam working");
-		    		loginservice.getDetails();
+		    	
+		    		
+		    		
 		    	};
+		    	
+		    	$scope.todos=[];
 		    	  
-		    	  $scope.makeTodos = function() {
-		    	    $scope.todos = [];
-		    	    for (var i=1;i<=1000;i++) {
-		    	      $scope.todos.push({ text:'todo '+i, name:'madhu',done:false});
-		    	    }
-		    	  };
-		    	  $scope.makeTodos(); 
-		    	  
-		    	  $scope.$watch('currentPage + numPerPage', function() {
-		    	    var begin = (($scope.currentPage - 1) * $scope.numPerPage)
-		    	    , end = begin + $scope.numPerPage;
-		    	    
-		    	    $scope.filteredTodos = $scope.todos.slice(begin, end);
-		    	  });
+			    	viewAllUsers.getUsersList().then(function(result){
+			    		$scope.todos=result.data;
+			    		alert("Directive data:"+JSON.stringify($scope.todos)+"Length: "+$scope.todos.length);	
+		    		
+			    		$scope.$watch('currentPage + numPerPage', function() {
+				    	    var begin = (($scope.currentPage - 1) * $scope.numPerPage)
+				    	    , end = begin + $scope.numPerPage;
+				    	   
+				    	   
+				    	    alert("Begin: "+begin+"End: "+end+"todos data: "+JSON.stringify($scope.todos));
+				    	    //   $scope.filteredTodos = $scope.todos;
+				    	    $scope.filteredTodos = $scope.todos.slice(begin, end);
+				    	    alert("Filtered Todos: "+JSON.stringify($scope.filteredTodos));
+				    	  });
+			    		
+			    		});
+			    
 		    }
 		  };
 		});

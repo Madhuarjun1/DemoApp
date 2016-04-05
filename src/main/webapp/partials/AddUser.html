@@ -1,4 +1,4 @@
-<section class="wrapper">
+<section class="wrapper" ng-controller="addUserController">
 		 
               <div class="row">
                   <div class="col-lg-12">
@@ -20,13 +20,13 @@
                                   <div class="form-group">
                                       <label class="col-sm-4 control-label">Enter firstname:</label>
                                       <div class="col-sm-6">
-                                          <input type="text" class="form-control">
+                                          <input type="text" class="form-control" ng-model="firstname">
                                       </div>
                                      </div>
                                       <div class="form-group">
                                       <label class="col-sm-4 control-label">Enter lastname:</label>
                                       <div class="col-sm-6">
-                                          <input type="text" class="form-control">
+                                          <input type="text" class="form-control" ng-model="lastname">
                                       </div>
                                       </div>
                                       
@@ -34,12 +34,23 @@
                                       <div class="form-group">
                                       <label class="control-label col-sm-4" for="inputSuccess">Country</label>
                                       <div class="col-lg-6">
-                                          <select class="form-control m-bot15">
+                                          
+                                          
+                                       <select class="form-control m-bot15" ng-model="country" 
+            ng-options="country.name as country.name for country in countries"></select>
+
+   
+                                          
+                                          
+                                          
+                                          
+                                          
+                                         <!--  <select class="form-control m-bot15" ng-model="mod1.country">
                                               <option>India</option>
                                               <option>USA</option>
                                               <option>UK</option>
                                               <option>Austrila</option>
-                                          </select>
+                                          </select> -->
 
                                          
                                       </div>
@@ -53,14 +64,14 @@
                                   	<div class="form-group">
                                       <label class="col-sm-4 control-label">Enter Email:</label>
                                       <div class="col-sm-6">
-                                          <input type="text" class="form-control">
+                                          <input type="text" class="form-control" ng-model="email">
                                       </div>
                                        </div>
                                        
                                        <div class="form-group">
                                       <label class="col-sm-4 control-label">Enter phone:</label>
                                       <div class="col-sm-6">
-                                          <input type="text" class="form-control">
+                                          <input type="text" class="form-control" ng-model="phone">
                                       </div>
                                       </div>
                                       	 
@@ -95,7 +106,7 @@
 												<div class="col-sm-3">
                                           <div class="radio">
                                               <label>
-                                                  <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
+                                                  <input type="radio" ng-model="gender" value="male">
                                                   Male
                                               </label>
                                           </div>
@@ -103,9 +114,10 @@
                                           <div class="col-sm-3">
                                           <div class="radio">
                                               <label>
-                                                  <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                                                  <input type="radio" ng-model="gender" value="female">
                                                  Female
                                               </label>
+                                              
                                           </div>
                                           </div>
                                           </div>
@@ -120,8 +132,8 @@
                                    
                                   <div class="row">
                                    <div class="col-lg-5 col-md-5 col-sm-5">
-                                  	<a class="btn btn-success" href="" >Success</a>
-                                      <a class="btn btn-default" href="">Clear</a></div>
+                                  	<button type="submit" class="btn btn-primary" ng-click="saveUser()">Submit</button>
+                                    <button type="submit" class="btn btn-default" ng-click="clearForm()">Clear</button>
                                   </div>
                               </form>
                           </div>

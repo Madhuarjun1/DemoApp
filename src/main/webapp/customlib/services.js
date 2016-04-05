@@ -50,5 +50,34 @@ factory('restService',function($http){
 	
 	
 	
+}).factory('viewAllUsers',function($http){
+	alert("i am viewAllUsers service");
+	var viewAllUsers={};
+	
+	viewAllUsers.getUsersList=function(){
+		
+		var theurl='../DemoApp/viewUsers';
+		var config = {
+             headers : {
+            	 
+                 'Content-Type': 'application/json; charset=utf-8;'
+             }
+         };
+		
+		
+       return  $http.get(theurl,  config)
+         .success(function (data, status, headers, config) {
+             alert(JSON.stringify(data));
+         })
+         .error(function (data, status, header, config) {
+            
+         });
+		
+	};
+	
+	return viewAllUsers;
+	
+	
+	
 });
 

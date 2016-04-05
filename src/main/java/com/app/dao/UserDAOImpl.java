@@ -17,8 +17,14 @@ public class UserDAOImpl extends AbstractDAO implements UserDAO {
 
 	@SuppressWarnings("unchecked")
 	public List<User> findAllUsers() {
-		Criteria criteria = getSession().createCriteria(User.class);
-		return (List<User>) criteria.list();
+		
+		List<User> users=getSession().createQuery("from User").list();
+		
+		
+		/*Criteria criteria = getSession().createCriteria(User.class);
+		System.out.println("findAllUsers() in UserDAOImpl class");
+		return (List<User>) criteria.list();*/
+		return users;
 	}
 
 	public void deleteUser(String id) {

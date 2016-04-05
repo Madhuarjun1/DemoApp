@@ -20,6 +20,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public List<User> findAllUsers() {
+		System.out.println("findAllUsers() method in UserServiceImpl class");
 		return dao.findAllUsers();
 	}
 
