@@ -11,7 +11,7 @@ controller('vieworUpdateorDelete', function($scope, $window, $http,$compile) {
 	    divElement.append(appendHtml);
 	
 	    
-}).controller('addUserController', function($scope) {
+}).controller('addUserController', function($scope,$stateParams,saveUserService) {
 	
 	 $scope.countries = [
 	                 { id: 1, name: 'India' },
@@ -23,17 +23,30 @@ controller('vieworUpdateorDelete', function($scope, $window, $http,$compile) {
 	  $scope.country = null;
 	 /* $scope.gender = 'Male';
       $scope.femaleValue ='Female'; */
+	//  alert(JSON.stringify($stateParams.data));
 	  
+	  if($stateParams.data!=null && $stateParams.data != undefined) {
+		  $scope.firstname = $stateParams.data.firstname;
+		  $scope.lastname = $stateParams.data.lastname;
+		  $scope.country=$stateParams.data.country;
+		  $scope.email=$stateParams.data.email;
+		  $scope.phone=$stateParams.data.phone;
+		  $scope.gender=$stateParams.data.gender;
+	  }
 	  $scope.saveUser=function(){
-		  alert("First Name: "+$scope.firstname +"Lastname :  "+$scope.lastname+"Country:  "+$scope.country+"Email: "+$scope.email+" Phone: "+$scope.phone+ "Gender: "+$scope.gender);  
-		  var input=new Object();
-		  input.firstname=$scope.firstname;
-		  input.lastname=$scope.lastname;
-		  input.country=$scope.country;
-		  input.email=$scope.email;
-		  input.phone=$scope.phone;
-		  input.gender=$scope.gender;
-		 alert(JSON.stringify(input)); 
+		 // alert("First Name: "+$scope.firstname +"Lastname :  "+$scope.lastname+"Country:  "+$scope.country+"Email: "+$scope.email+" Phone: "+$scope.phone+ "Gender: "+$scope.gender);  
+		  var User=new Object();
+		  User.firstname=$scope.firstname;
+		  User.lastname=$scope.lastname;
+		  User.country=$scope.country;
+		  User.email=$scope.email;
+		  User.phone=$scope.phone;
+		  User.gender=$scope.gender;
+		 alert(JSON.stringify(User)); 
+		 
+		 saveUserService.saveUserData(User).then(function(response){
+			$scope.clearForm();
+		 });
 		  
 	  };
 	  $scope.clearForm=function(){

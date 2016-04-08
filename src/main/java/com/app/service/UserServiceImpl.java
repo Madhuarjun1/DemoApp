@@ -16,6 +16,7 @@ public class UserServiceImpl implements UserService {
 	private UserDAO dao;
 
 	public void saveUser(User user) {
+		System.out.println("Entered into service of saveUser method");
 		dao.saveUser(user);
 	}
 
@@ -24,13 +25,14 @@ public class UserServiceImpl implements UserService {
 		return dao.findAllUsers();
 	}
 
-	public void deleteUser(String id) {
+	public void deleteUser(Integer id) {
 		dao.deleteUser(id);
 	}
 
-	/*
-	 * public User findBySsn(String ssn) { return dao.findBySsn(ssn); }
-	 * 
-	 * public void updateEmployee(User user){ dao.updateEmployee(user); }
-	 */
+	
+	 public User findByFirstname(String firstname) {
+		 return dao.findByFirstname(firstname); }
+	  
+	  public void updateUser(User user){ dao.updateUser(user); }
+	 
 }

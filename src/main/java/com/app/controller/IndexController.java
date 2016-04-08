@@ -9,10 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.app.model.User;
 import com.app.service.UserService;
-import com.app.service.UserServiceImpl;
 
 @Controller
 public class IndexController {
@@ -29,10 +27,27 @@ public class IndexController {
 	
 	@RequestMapping(value = "/saveUser" , method = RequestMethod.POST,consumes="application/json", produces = "application/json")
 
-	public @ResponseBody String update(@RequestBody String name) {
-		System.out.println("Entered into update method"+name);
-	    String newname="{\"name\": \"Arjun\"}";
-	    return newname;
+	public @ResponseBody String saveUser(@RequestBody final User user) {
+		System.out.println("Entered into saveUser method");
+		System.out.println(user.getFirstname()+user.getLastname()+user.getCountry()+user.getEmail()+user.getPhone()+user.getGender());
+		if(user.getFirstname()!=null){
+			User checkUser=us.findByFirstname(user.getFirstname());
+			
+			if(checkUser==null){
+				us.saveUser(user);
+			}else if(checkUser.getFirstname()!=null){
+				user.setId(checkUser.getId());
+				System.out.println("update method executing "+user.getId()+""+user.getFirstname());
+				us.updateUser(user);
+			}
+			
+		}else{
+			System.out.println("something wrong");
+		}
+		
+		
+		String result="{\"name\": \"Arjun\"}";
+	    return result;
 	}
 	
 	@RequestMapping(value = "/viewUsers" , method = RequestMethod.GET,produces = "application/json")
@@ -40,16 +55,32 @@ public class IndexController {
 	public @ResponseBody List<User> viewAll(@RequestBody String name) {
 		System.out.println("Entered into view method"+name);
 	   
-		/*List<User> userList = us.findAllUsers();
-		System.out.println(userList.size());
-        for (User user : userList) {
-        	System.out.println("for each loop executing");
-            System.out.println(user.getFirstname()+""+user.getLastname()+""+user.getEmail()+""+user.getPhone()+""+user.getGender()+""+user.getCountry()+""+user.getId());
-        }*/
+	    return us.findAllUsers();
+	}
+	
+	@RequestMapping(value = "/removeUser" , method = RequestMethod.POST,consumes="application/json", produces = "application/json")
+
+	public @ResponseBody List<User> removeUser(@RequestBody final User user) {
+		System.out.println("Entered into removeUser method");
+		System.out.println(user.getFirstname()+user.getLastname()+user.getCountry()+user.getEmail()+user.getPhone()+user.getGender());
+		us.deleteUser(user.getId());
 		
 	    return us.findAllUsers();
 	}
+	
+	
+	@RequestMapping(value = "/updateUser" , method = RequestMethod.POST,consumes="application/json", produces = "application/json")
 
+	public @ResponseBody String updateUser(@RequestBody final User user) {
+		System.out.println("Entered into updateUser method");
+		System.out.println(user.getFirstname()+user.getLastname()+user.getCountry()+user.getEmail()+user.getPhone()+user.getGender());
+		us.updateUser(user);
+		String result="{\"name\": \"Arjun\"}";
+	    return result;
+	}
+	
+	
+	
 	/*public UserService getUs() {
 		return us;
 	}

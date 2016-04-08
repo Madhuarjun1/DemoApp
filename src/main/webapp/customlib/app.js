@@ -9,7 +9,10 @@ demoApp.config(function($stateProvider, $urlRouterProvider,$locationProvider) {
     $stateProvider
          .state('home', {
             url: '/home',
-            templateUrl: 'partials/AddUser.html'
+            templateUrl: 'partials/AddOrUpdateUser.html',
+            params: {
+                data: null
+            }
         }).state('vieworUpdateorDelete', {
             url: '/view',
             templateUrl: 'partials/VieworUpdateorDelete.html'

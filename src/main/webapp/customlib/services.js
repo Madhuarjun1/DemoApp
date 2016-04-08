@@ -15,18 +15,16 @@ factory('restService',function($http){
 	
 	return restService;
 	
-}).factory('loginservice',function($http){
-	alert("i am updateservice service");
-	var loginservice={};
+}).factory('saveUserService',function($http){
+	//alert("i am saveUserService service");
+	var saveUserService={};
 	
-	loginservice.getDetails=function(){
+	saveUserService.saveUserData=function(User){
 		
-		var theurl='../DemoApp/update';
+		var theurl='../DemoApp/saveUser';
 		
 		
-		 var data = $.param({
-             name: 'madhu'
-         });
+		 var data = JSON.stringify(User);
      
          var config = {
              headers : {
@@ -38,7 +36,7 @@ factory('restService',function($http){
 		
        return  $http.post(theurl, data, config)
          .success(function (data, status, headers, config) {
-             alert(data.name);
+             //alert("success");
          })
          .error(function (data, status, header, config) {
             
@@ -46,12 +44,12 @@ factory('restService',function($http){
 		
 	};
 	
-	return loginservice;
+	return saveUserService;
 	
 	
 	
 }).factory('viewAllUsers',function($http){
-	alert("i am viewAllUsers service");
+	//alert("i am viewAllUsers service");
 	var viewAllUsers={};
 	
 	viewAllUsers.getUsersList=function(){
@@ -67,7 +65,7 @@ factory('restService',function($http){
 		
        return  $http.get(theurl,  config)
          .success(function (data, status, headers, config) {
-             alert(JSON.stringify(data));
+             //alert(JSON.stringify(data));
          })
          .error(function (data, status, header, config) {
             
@@ -76,6 +74,36 @@ factory('restService',function($http){
 	};
 	
 	return viewAllUsers;
+	
+	
+	
+}).factory('deleteUserService',function($http){
+	//alert("i am viewAllUsers service");
+	var deleteUserService={};
+	
+	deleteUserService.removeUser=function(User){
+		
+		var theurl='../DemoApp/removeUser';
+		 var data = JSON.stringify(User);
+		var config = {
+             headers : {
+            	 
+                 'Content-Type': 'application/json; charset=utf-8;'
+             }
+         };
+		
+		
+       return  $http.post(theurl, data, config)
+         .success(function (data, status, headers, config) {
+        	 alert("success in service");
+         })
+         .error(function (data, status, header, config) {
+            
+         });
+		
+	};
+	
+	return deleteUserService;
 	
 	
 	

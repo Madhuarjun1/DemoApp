@@ -10,7 +10,8 @@ public interface UserDAO {
 
 	List<User> findAllUsers();
 
-	void deleteUser(String colname);
+	void deleteUser(Integer colname);
 
-	// void updateUser(User user);
+	void updateUser(User user);
+	User findByFirstname(String firstname);
 }
