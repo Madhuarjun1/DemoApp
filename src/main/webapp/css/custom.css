@@ -1,0 +1,31 @@
+.mywidth {
+    
+    width: 24.666667%;
+    
+}
+.col-xxs-12{
+	margin-left:605px;
+}
+.selectClass{
+	width: 146px;
+	margin-bottom: 3px;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #8e8e93;
+    vertical-align: middle;
+    background-color: #ffffff;
+    border: 1px solid #c7c7cc;
+    border-radius: 4px;
+    -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.input-group2 {
+	width:258px;
+    position: relative;
+    display: table;
+    border-collapse: separate;
+}
+ 
