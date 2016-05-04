@@ -1,69 +1,101 @@
 package com.app.model;
 
-import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
- 
-@Entity
-@Table(name="DEMO_USER")
-public class User implements Serializable {
-    
-	private static final long serialVersionUID = 1L;
-	private Integer id;
-    private String firstname;
-    private String lastname;
-    private String country;
-    private String email;
-    private Long phone;
-    private String gender;
 
-    
-    @Id
-	@SequenceGenerator(name = "UserModel_Seq", sequenceName = "DEMO_USER_SEQ", allocationSize=1)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="UserModel_Seq")
-    public Integer getId() {
+import org.hibernate.validator.constraints.NotEmpty;
+
+@Entity
+@Table(name="APP_USER")
+public class User {
+
+	@Id
+	@SequenceGenerator(name = "APP_USER_SEQ", sequenceName = "APP_USER_SEQ", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="APP_USER_SEQ")
+	private int id;
+
+	@NotEmpty
+	@Column(name="SSO_ID", unique=true, nullable=false)
+	private String ssoId;
+	
+	@NotEmpty
+	@Column(name="PASSWORD", nullable=false)
+	private String password;
+		
+	@NotEmpty
+	@Column(name="FIRST_NAME", nullable=false)
+	private String firstName;
+
+	@NotEmpty
+	@Column(name="LAST_NAME", nullable=false)
+	private String lastName;
+
+	@NotEmpty
+	@Column(name="EMAIL", nullable=false)
+	private String email;
+
+	@NotEmpty
+	@Column(name="STATE", nullable=false)
+	private String state=State.ACTIVE.getState();
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "APP_USER_USER_PROFILE", 
+             joinColumns = { @JoinColumn(name = "USER_ID") }, 
+             inverseJoinColumns = { @JoinColumn(name = "USER_PROFILE_ID") })
+	private Set<UserProfile> userProfiles = new HashSet<UserProfile>();
+
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
-	
-	@Column(name="FIRSTNAME")
-	public String getFirstname() {
-		return firstname;
+
+	public String getSsoId() {
+		return ssoId;
 	}
 
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
-	
-	@Column(name="LASTNAME")
-	public String getLastname() {
-		return lastname;
+	public void setSsoId(String ssoId) {
+		this.ssoId = ssoId;
 	}
 
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
-	
-	@Column(name="COUNTRY")
-	public String getCountry() {
-		return country;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setCountry(String country) {
-		this.country = country;
+	public void setPassword(String password) {
+		this.password = password;
 	}
-	
-	@Column(name="EMAIL")
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -71,23 +103,57 @@ public class User implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	@Column(name="PHONE")
-	public Long getPhone() {
-		return phone;
+
+	public String getState() {
+		return state;
 	}
 
-	public void setPhone(Long phone) {
-		this.phone = phone;
-	}
-	
-	@Column(name="GENDER")
-	public String getGender() {
-		return gender;
+	public void setState(String state) {
+		this.state = state;
 	}
 
-	public void setGender(String gender) {
-		this.gender = gender;
+	public Set<UserProfile> getUserProfiles() {
+		return userProfiles;
 	}
-    
+
+	public void setUserProfiles(Set<UserProfile> userProfiles) {
+		this.userProfiles = userProfiles;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		result = prime * result + ((ssoId == null) ? 0 : ssoId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof User))
+			return false;
+		User other = (User) obj;
+		if (id != other.id)
+			return false;
+		if (ssoId == null) {
+			if (other.ssoId != null)
+				return false;
+		} else if (!ssoId.equals(other.ssoId))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", ssoId=" + ssoId + ", password=" + password
+				+ ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", email=" + email + ", state=" + state + ", userProfiles=" + userProfiles +"]";
+	}
+
+	
 }

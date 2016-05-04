@@ -2,36 +2,55 @@ package com.app.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import com.app.model.User;
-import com.app.service.UserService;
+import com.app.model.AddUser;
+import com.app.service.AppUserService;
 
 @Controller
 public class IndexController {
 	
 	@Autowired
-	UserService us;
+	AppUserService us;
 	 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
 	public ModelAndView home() {
 		System.out.println("New Controller: Passing through...");
 		ModelAndView model = new ModelAndView("index");
 		return model;
 	}
 	
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String loginPage() {
+		return "login";
+	}
+	
+	@RequestMapping(value="/logout", method = RequestMethod.GET)
+	public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth != null){    
+			new SecurityContextLogoutHandler().logout(request, response, auth);
+		}
+		return "redirect:/login?logout";
+	}
 	@RequestMapping(value = "/saveUser" , method = RequestMethod.POST,consumes="application/json", produces = "application/json")
 
-	public @ResponseBody String saveUser(@RequestBody final User user) {
+	public @ResponseBody String saveUser(@RequestBody final AddUser user) {
 		System.out.println("Entered into saveUser method");
 		System.out.println(user.getFirstname()+user.getLastname()+user.getCountry()+user.getEmail()+user.getPhone()+user.getGender());
 		if(user.getFirstname()!=null){
-			User checkUser=us.findByFirstname(user.getFirstname());
+			AddUser checkUser=us.findByFirstname(user.getFirstname());
 			
 			if(checkUser==null){
 				us.saveUser(user);
@@ -52,7 +71,7 @@ public class IndexController {
 	
 	@RequestMapping(value = "/viewUsers" , method = RequestMethod.GET,produces = "application/json")
 
-	public @ResponseBody List<User> viewAll(@RequestBody String name) {
+	public @ResponseBody List<AddUser> viewAll(@RequestBody String name) {
 		System.out.println("Entered into view method"+name);
 	   
 	    return us.findAllUsers();
@@ -60,7 +79,7 @@ public class IndexController {
 	
 	@RequestMapping(value = "/removeUser" , method = RequestMethod.POST,consumes="application/json", produces = "application/json")
 
-	public @ResponseBody List<User> removeUser(@RequestBody final User user) {
+	public @ResponseBody List<AddUser> removeUser(@RequestBody final AddUser user) {
 		System.out.println("Entered into removeUser method");
 		System.out.println(user.getFirstname()+user.getLastname()+user.getCountry()+user.getEmail()+user.getPhone()+user.getGender());
 		us.deleteUser(user.getId());
@@ -71,7 +90,7 @@ public class IndexController {
 	
 	@RequestMapping(value = "/updateUser" , method = RequestMethod.POST,consumes="application/json", produces = "application/json")
 
-	public @ResponseBody String updateUser(@RequestBody final User user) {
+	public @ResponseBody String updateUser(@RequestBody final AddUser user) {
 		System.out.println("Entered into updateUser method");
 		System.out.println(user.getFirstname()+user.getLastname()+user.getCountry()+user.getEmail()+user.getPhone()+user.getGender());
 		us.updateUser(user);
@@ -81,11 +100,11 @@ public class IndexController {
 	
 	
 	
-	/*public UserService getUs() {
+	public AppUserService getUs() {
 		return us;
 	}
 
-	public void setUs(UserService us) {
+	public void setUs(AppUserService us) {
 		this.us = us;
-	}*/
+	}
 }
