@@ -1,0 +1,69 @@
+<div class="container">
+<div class="row">    
+        <div class="col-xs-12">
+        
+        <div class="col-xs-5">
+        <label class="control-label"><b>Search By Type:</b></label>
+        <select class="selectClass">
+         <option value="">Select Type</option>
+         <option>FirstName</option>
+         <option>Lastname</option>
+         <option>Email</option>
+		 <option>Phone</option>                                                                                                               
+		</select>
+        </div>
+         
+			<div class="input-group2">
+                <input type="text" class="form-control" name="x" placeholder="Search User...">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                </span>
+            </div>
+            
+        </div>
+	</div>
+	</div>
+
+<h3> Total Users(<span class="glyphicon glyphicon-user"></span>): {{todos.length}}</h3>
+
+<table
+	class="table table-striped table-bordered table-hover table-condensed">
+	<tbody>
+		<tr>
+			<td>Firstname</td>
+			<td>Lastname</td>
+			<td>Country</td>
+			<td>Email</td>
+			<td>Phone</td>
+			<td>Gender</td>
+			<td>status</td>
+		</tr>
+		<tr ng-repeat="todo in filteredTodos">
+			<td>{{todo.firstname}}</td>
+			<td>{{todo.lastname}}</td>
+			<td>{{todo.country}}</td>
+			<td>{{todo.email}}</td>
+			<td>{{todo.phone}}</td>
+			<td>{{todo.gender}}</td>
+			
+			<td>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+					 <!-- <span class="glyphicon glyphicon-edit" ng-click="OnSave()"></span> -->
+						<button type="submit" class="glyphicon glyphicon-edit" ng-click="OnSave(todo)"></button>
+						
+						<button type="submit" class="glyphicon glyphicon-export" ng-click="onExport()"></button>
+						
+						<button type="submit" class="glyphicon glyphicon-trash" ng-click="onDelete(todo)"></button>
+					</div>
+				</div>
+
+			</td>
+
+		</tr>
+	</tbody>
+</table>
+
+<pagination ng-model="currentPage" total-items="todos.length"
+	max-size="maxSize" boundary-links="true" items-per-page="4"> </pagination>
+
