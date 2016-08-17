@@ -17,7 +17,7 @@ import org.springframework.web.servlet.view.JstlView;
 public class DemoAppConfiguration extends WebMvcConfigurerAdapter {
 	
 	/*@Autowired
-	RoleToUserProfileConverter roleToUserProfileConverter;*/
+	RoleToUserProfileConverter roleToUserProfileConverter;ddddddd*/
 	
 	
 	@Override
